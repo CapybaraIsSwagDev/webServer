@@ -1,5 +1,6 @@
-flask 
-libsass 
+flask
+gunicorn
+libsass
 pyyaml
 requests
 watchdog

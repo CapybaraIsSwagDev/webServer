@@ -10,5 +10,4 @@ def not_found(e):
     return render_template("404.html"), 404
 
 if __name__ == '__main__':
-    print(app.url_map)
-    app.run(debug=False,port=8000)
+    app.run(debug=True,port=8000)
