@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="9.260417mm"
+   height="9.260417mm"
+   viewBox="0 0 9.260417 9.260417"
+   version="1.1"
+   id="svg1231"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="icon-infobox-error-white.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1225" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#51c763"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="31.678384"
+     inkscape:cx="21.150069"
+     inkscape:cy="8.7914839"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showborder="false" />
+  <metadata
+     id="metadata1228">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-88.219646,-106.06529)">
+    <g
+       id="g1335"
+       transform="matrix(0.19496683,0,0,0.19496683,81.107024,75.343182)"
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:#c0392b;fill-opacity:1;stroke:#ffffff;stroke-width:3.39267;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;marker:none;marker-start:none;marker-mid:none;marker-end:none;stop-color:#000000;stop-opacity:1">
+      <path
+         style="font-variation-settings:normal;vector-effect:none;fill:#c0392b;fill-opacity:1;stroke:#ffffff;stroke-width:3.39267;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;marker:none;marker-start:none;marker-mid:none;marker-end:none;stop-color:#000000;stop-opacity:1"
+         d="M 50.244499,171.33938 70.215275,191.31016"
+         id="path1331" />
+      <path
+         style="font-variation-settings:normal;vector-effect:none;fill:#c0392b;fill-opacity:1;stroke:#ffffff;stroke-width:3.39267;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;marker:none;marker-start:none;marker-mid:none;marker-end:none;stop-color:#000000;stop-opacity:1"
+         d="M 70.215275,171.33938 50.244499,191.31016"
+         id="path1333" />
+    </g>
+    <g
+       id="g1881"
+       transform="translate(7.8228744,-1.9322215)"
+       style="stroke:#ffffff">
+      <path
+         inkscape:export-ydpi="200"
+         inkscape:export-xdpi="200"
+         inkscape:export-filename="/home/xpelanek/Desktop/info-boxy.png"
+         inkscape:connector-curvature="0"
+         id="path1213"
+         d="M 90.676491,112.63263 94.645241,108.66388"
+         style="opacity:1;vector-effect:none;fill:#c0392b;fill-opacity:1;stroke:#ffffff;stroke-width:0.661458;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none" />
+      <path
+         inkscape:export-ydpi="200"
+         inkscape:export-xdpi="200"
+         inkscape:export-filename="/home/xpelanek/Desktop/info-boxy.png"
+         style="opacity:1;vector-effect:none;fill:#c0392b;fill-opacity:1;stroke:#ffffff;stroke-width:0.661458;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+         d="M 94.645241,112.63263 90.676491,108.66388"
+         id="path1215"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

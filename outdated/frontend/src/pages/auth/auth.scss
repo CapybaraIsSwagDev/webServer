@@ -1,0 +1,152 @@
+
+form.auth {
+  .field {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.container-auth {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.center {
+  display: flex;
+  padding: 40px 60px;
+  margin-top: 60px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container-auth {
+  max-width: 400px;
+  margin: 120px auto;
+  padding: 40px;
+  background: var(--transparent-main);
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  gap: 1rem;
+
+  h2 {
+    font-size: 1.8rem;
+    color: var(--text);
+  }
+}
+
+form.auth {
+  gap: 1rem;
+
+  .field {
+    label {
+      text-align: left;
+    }
+
+    input {
+      margin-top: 2px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    z-index: 0;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #cfe9ff, #ffe5f7);
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #ffe5f7, #cfe9ff);
+      transition: opacity 0.6s ease;
+      z-index: -1;
+      opacity: 1;
+    }
+
+    &:hover::before {
+      opacity: 0;
+    }
+  }
+}
+
+.login-form * {
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+}
+
+.login-container > *:not(form) {
+  margin-top: 10px;
+}
+
+.register {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  z-index: 0;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #cfffdd, #e5fdff);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #e5fdff, #cfffdd);
+    transition: opacity 0.6s ease;
+    z-index: -1;
+    opacity: 1;
+  }
+
+  &:hover::before {
+    opacity: 0;
+  }
+}
+
+.login {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  z-index: 0;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #ffcfcf, #fffee5);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #fffee5, #ffcfcf);
+    transition: opacity 0.6s ease;
+    z-index: -1;
+    opacity: 1;
+  }
+
+  &:hover::before {
+    opacity: 0;
+  }
+}

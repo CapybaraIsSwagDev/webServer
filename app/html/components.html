@@ -1,0 +1,13 @@
+{# {% import "components.html" as ui %} #}
+
+{% macro container (title="", body="") %}
+<div class="container">
+  {{ caller() }}
+</div>
+{% endmacro %}
+
+{% macro bar (value=50) %}
+<div class="progress">
+    <div class="progress-fill" style="width: {{ value }}%"></div>
+</div>
+{% endmacro %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Tasks{% endblock %}
+{% block content %}
+<div class="center">
+  <div class="container">
+    <h1>Tasks</h1>
+    <p>Select a task to begin:</p>
+
+    <div id="task-list">
+      {% for item in tasks %}
+        <div class="task">
+          <h3>{{item.title}}</h3>
+          <a href="/user/lessons/{{ item.id }}"><button>Start</button></a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+  
+
+<script>
+async function loadTasks() {
+  const res = await fetch("/api/task", { credentials: "include" });
+  const data = await res.json();
+
+  const container = document.getElementById("task-list");
+  container.innerHTML = ""; // clear loading text
+
+  data.forEach(task => {
+    const div = document.createElement("div");
+    div.className = "task";
+
+    div.innerHTML = `
+      <h3>${task.title}</h3>
+      <button onclick="startTask('${task.id}')">Start</button>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+function startTask(id) {
+  window.location.href = "/task/"+id;
+}
+</script>
+
+{% endblock %}

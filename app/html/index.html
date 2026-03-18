@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="{{ url_for('static', filename='js/markdown.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<section class="hero" id="home">
+
+  <h2>Vitajte na mojej webstranke.</h2>
+    
+  <p>Túto webstránka je vytvorená iba pomocou Pythonu, HTML.</p>
+</section>
+<div class="island">
+  <h1 class="type-1">Lekcie</h1>
+  <p>Táto stránka obsahuje lekcie. Dokončenie lekcií prináša XP. Najnovšie lekcie sú uvedené nižšie.</p>
+  <div class="grid-h glass-island">
+    {% for i in lessons %}
+      <div class="lessons glass-island">
+        <h2>{{ i.title }}</h2>
+        <p class="expand markdown">{{ i.summary }}</p>
+        <p><b>Difficulty:</b>
+          {% if i.difficulty == 0 %}
+            <span style="color:rgb(167, 167, 255)">Freebie</span>
+          {% elif i.difficulty == 1 %}
+            <span style="color:rgb(167, 255, 58)">EASY</span>
+          {% elif i.difficulty == 2 %}
+            <span style="color:rgb(255, 255, 0)">MEDIUM</span>
+          {% elif i.difficulty == 3 %}
+            <span style="color:rgb(255, 0, 0)">HARD</span>
+          {% elif i.difficulty == 4 %}
+            <span style="color:rgb(167, 0, 167)"><b>EXTREME</b></span>
+          {% elif i.difficulty == 5 %}
+            <span style="color:rgb(0, 0, 0)"><b>NIGHTMARE</b></span>
+          {% else %}
+            <span>NONE</span>
+          {% endif %}
+        <p>
+        {% if i.id == "dummy" %}
+        <button class="disable">Nie</button>
+        {% else %}
+        <a href="/user/lessons/{{ i.id }}"><button>Prejsť na lekciu</button></a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+<script>
+  render()
+</script>
+
+
+
+
+
+<!-- Second About Me: split layout -->
+<!-- <div class="about-split">
+  <div class="about-image">
+    <img src="static/python.png" alt="Profile Image">
+  </div>
+  <div class="about-text">
+    <h2>About Me</h2>
+    <p>I'm an idiot who should learn Slovak but does stupid things like this :D</p>
+  </div>
+</div> -->
+{% endblock %}

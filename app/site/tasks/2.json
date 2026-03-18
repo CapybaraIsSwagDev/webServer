@@ -1,0 +1,16 @@
+{
+    "template":"code",
+    "title":"Medzi Čísla",
+    "description":"Ako sa da použit funkcia **range()**",
+    "difficulty":0,
+    "xp":"10xp",
+    "question":"Napíšte funkciu **interval(a, b)**, ktorá vypíše čísla od a do b." ,
+    "example":"def interval(a, b): \n\tprint()",
+    "correct":"def interval(a, b): \n\tfor i in range(a,b+1):\n\t\tprint(i)",
+    "tests":[
+        "interval(8,13)",
+        "interval(3,20)",
+        "interval(10,10)",
+        "interval(2,4)"
+    ]
+}

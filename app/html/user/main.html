@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% import "components.html" as ui %}
+
+{% block title %}User Dashboard{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='build/css/userpage.css') }}">
+{% endblock %}
+{% block content %}
+  <div class="center">
+    <div class="dashboard">
+
+      <aside class="sidebar">
+        <div class="profile-card glass-island">
+          <div class="user">
+            <div class="avatar"></div>
+            <h2 id="username">Loading...</h2>
+          </div>
+          
+          <div class="xp-section">
+            <div class="xp-level">
+              <span>Level <span id="level-text"></span></span>
+              <span>XP: <span class="xp-text" id="xp-text">0/0</span></span>
+            </div>
+            <div class="xp-bar">
+              <div class="xp-fill" id="xp-bar"></div>
+            </div>
+          </div>
+
+          <ul class="stats-list">
+            <li><strong>Joined:</strong> <span id="joined">—</span></li>
+            <li><strong>Rank:</strong> <span>#12</span></li> 
+          </ul>
+          <h3>Leaderboard</h3>
+          <ul class="stats-list">
+            <li><span>1. <strong>Not You</strong></span> <span>2,400 XP</span></li>
+            <li><span>2. User_Alpha</span> <span>2,150 XP</span></li>
+            <li><span>3. User_Beta</span> <span>1,900 XP</span></li>
+          </ul>
+          <section class="friends-list glass-island" style="display: none;"> <!-- FRIENDS DISABLED -->
+          <div class="friends-header">
+            <h3>Friends</h3>
+            <button class="add-friend-btn" id="add-friend-btn">+</button>
+           <!-- ADD FRIENDS PANEL -->
+          <div class="panel" id="add-friend-panel">
+            <div class="search-bar">
+              <input type="text" placeholder="Search by username..." id="friend-search-bar">
+              <button class="close-panel-btn" id="close-panel-btn">×</button>
+            </div>
+            <div class="result-area">
+              <div class="search-placeholder" id="friend-placeholder">
+                <p class="small-text">Type a name to search</p>
+              </div>
+              
+              <div class="search-results" id="friend-results" style="display: none;">
+                
+              </div>
+            </div>
+          </div>
+          </div>
+            
+          <ul class="friends-ul">
+            <li class="friend">
+              <div class="avatar online"></div>
+              <div class="info">
+                <span class="name">User_Alpha</span>
+                <span class="status">Online</span>
+              </div>
+              <span class="xp">2,150 XP</span>
+            </li>
+
+            <li class="friend">
+              <div class="avatar offline"></div>
+              <div class="info">
+                <span class="name">SQL_Wizard</span>
+                <span class="status">Last seen 2h ago</span>
+              </div>
+              <span class="xp">1,800 XP</span>
+            </li>
+          </ul>
+        </section>
+        </div>
+        
+      </aside>
+
+      <div class="content">
+
+
+        <div class="glass-island">
+          <div class="resume-learning">
+            <div class="lesson-info">
+              <h3>Continue Learning</h3>
+              <h2>Advanced SQLite Queries</h2>
+              <p>Next up: Working with JSON functions</p>
+            </div>
+            <button class="btn-primary">Resume Lesson</button>
+          </div>
+        </div>
+
+        <section class="profile-grid">
+          
+          
+        <div class="glass-island">
+            <h3>Practice History</h3>
+            <div class="streak-mini-grid">
+              <div class="day active">M</div>
+              <div class="day active">T</div>
+              <div class="day active">W</div>
+              <div class="day">T</div>
+              <div class="day">F</div>
+              <div class="day">S</div>
+              <div class="day">S</div>
+            </div>
+            <p class="small-text">Current Streak: <strong>3 Days</strong></p>
+          </div>
+
+          
+          <div class="glass-island">
+            <section class="activity-stats glass-island">
+              <h3>Weekly Progress</h3>
+              <div class="chart-placeholder">
+                <div class="bar" style="height: 60%"></div>
+                <div class="bar" style="height: 80%"></div>
+                <div class="bar" style="height: 40%"></div>
+              </div>
+            </section>
+          </div>
+
+        </section>
+
+        <div class="glass-island">
+          <details>
+            <summary>View Debug Account Data</summary>
+            <pre id="content">Loading…</pre>
+          </details>
+        </div>
+
+      </div>
+    </div>
+  </div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const contentEl = document.getElementById("content");
+
+  const usernameEl = document.getElementById("username");
+  const joinedEl = document.getElementById("joined");
+
+  const friendBtnClose = document.getElementById("close-panel-btn");  
+  const friendBtn = document.getElementById("add-friend-btn");
+  const friendList = document.querySelector(".panel");
+
+  friendBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // prevent closing immediately
+    friendList.classList.toggle('active');
+  });
+  friendBtnClose.addEventListener('click', (e) => {
+    e.stopPropagation(); // prevent closing immediately
+    friendList.classList.remove('active');
+  });
+
+  
+  const friendSearchBar = document.getElementById("friend-search-bar");
+  const friendResults = document.getElementById("friend-results");
+  const friendPlaceholder = document.getElementById("friend-placeholder");
+
+  friendSearchBar.addEventListener("change", async (e) => {
+      const res = await fetch("/api/user/search?username="+friendSearchBar.value);
+      const data = await res.json();
+      console.log(data)
+      if (data.length == 0) {
+        friendResults.style.display = "none"
+        friendPlaceholder.style.display = "block"
+        friendPlaceholder.innerHTML = `<p class="small-text">Nemas kamaratou.</p>`
+      } else {
+        friendResults.style.display = "flex"
+        friendPlaceholder.style.display = "none"
+      }
+
+      friendResults.innerHTML = ""
+      console.log(friendSearchBar.value)
+      for (let i = 0; i < data.length; i++) {
+        const user = data[i];
+        const newUser = `<div class="user-card">
+          <div class="card-content">
+            <div class="avatar"></div>
+            <div class="user-info">
+              <span class="username">${user.username}</span>
+              <span class="xp-display">${user.xp} XP</span>
+            </div>
+          </div>
+          <button class="add-user-btn">+</button>
+        </div>`
+        friendResults.innerHTML += newUser
+      }
+  })
+
+  async function loadContent() {
+    try {
+      const res = await fetch("/api/user/{{ id }}/profile");
+      const data = await res.json();
+
+      contentEl.textContent = JSON.stringify(data, null, 2);
+
+      // Populate profile fields
+      usernameEl.textContent = data.username || "User";
+      const [y, m, d] = data.created.split("-");
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      joinedEl.textContent = `${months[m - 1]} ${d}, ${y}` || "—";
+      setLevels(data.xp)
+    } catch {
+      contentEl.textContent = "Failed to load user data.";
+    }
+  }
+
+  function setLevels(xp) {
+    const LvlText = document.getElementById("level-text");
+    const XpText  = document.getElementById("xp-text");
+    const XpBar   = document.getElementById("xp-bar");
+    // Converts XP → Level (rounded DOWN)
+    function calcLevel(xp) {
+      return Math.floor(Math.sqrt(xp / 50))
+    }
+
+    // Converts XP → Next Level (rounded UP)
+    function calcNextLevel(xp) {
+      return Math.ceil(Math.sqrt(xp / 50))
+    }
+
+    // Converts Level → XP required
+    function levelToXP(level) {
+      return level ** 2 * 50
+    }
+
+    // --- Usage ---
+
+    const level = calcLevel(xp)
+    const nextLevel = calcNextLevel(xp + 1)
+
+    LvlText.textContent = String(level)
+
+    const currentLevelXP = levelToXP(level)
+    const nextLevelXP = levelToXP(nextLevel)
+
+    const xpIntoLevel = xp - currentLevelXP
+    const xpNeededForLevel = nextLevelXP - currentLevelXP
+
+    XpText.textContent = `${xpIntoLevel}/${xpNeededForLevel}`
+
+    XpBar.style.width = `${(xpIntoLevel/xpNeededForLevel)*100}%`
+  }
+  loadContent();
+  })
+</script>
+{% endblock %}

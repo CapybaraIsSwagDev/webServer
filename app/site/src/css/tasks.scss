@@ -1,0 +1,235 @@
+:root {
+  --unit: 8px;
+}
+/******************* VARIABLES, COLORS ********************************/
+:root {
+  --yellow: #f1c40f; /* sunflower (flat UI) */
+  --yellowHover: #f39c12; /* orange (flat UI) */
+  --blue: #00a8ff;
+  --blueHover: #0097e6;
+  --blue: #3498db; /* peter river (flat UI) */
+  --blueHover: #2980b9; /* belize hole (flat UI) */
+  --darkBlue: #0d7dba;
+  --darkBlueHover: #2980b9;
+  --green: #00ca65;
+  --greenHover: #00AB55;
+  --green: #2ecc71; /* emerald (flat UI) */
+  --greenHover: #27ae60; /* nephritis (flat UI) */
+  --orange: #f39c12; /* orange (flat UI) */
+  --orangeHover: #e67e22; /* carrot (flat UI) */
+  --red: #e55043;
+  --red: #e74c3c; /* alizarin (flat UI) */
+  --redHover: #c0392b; /* pomegranate (flat UI) */
+  --violet: #9b59b6; /* amethyst (flat UI) */
+  --violetHover: #8e44ad; /* wisteria (flat UI) */
+  --lightGray: #ecf0f1;  /* clouds (flat UI) */
+  --lightGray: #eff0f2;    /* TEPLEJSI */
+  --lightGrayHover: #dfdfe1;
+  --gray: #bdc3c7; /* silver (flat UI) */
+  --grayHover: #95a5a6; /* concrete (flat UI) */
+  --black: #34495e; /* wet asphalt (flat UI) */
+  --blackHover: #2c3e50; /* midnight blue (flat UI) */
+
+  --faintGray: #f3f6f9; /* f8f8f8 teplejsi */
+  --faintGreen: #c8f8df;
+  --faintBlue: #e3faff;
+  --faintRed: #F7B7C0;
+  --faintYellow: #f8efbc;
+  --faintOrange: #FEDEB4;
+  --white: white;
+
+  --gray-1: #f8f9f9;
+  --gray-2: #ebedee;
+
+  --overlay-background: rgba(44, 62, 80, 0.6);
+  --wrong: #ec7063;
+  --correct: #2ecc71;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #F1F1F2;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+main {
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;       /* center horizontally */
+    padding: 100px 10px 20px 10px; /* top padding for header, small bottom padding */
+}
+
+#mainDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;                /* space between items */
+    width: 100%;
+    max-width: 800px;         /* max width so it’s not too wide */
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+
+h2 {
+    margin-top: 5px;
+}
+
+.CodeMirror {
+    width: 100%;          /* match parent width */
+    height: 250px;        /* fixed height */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;  /* spacing below each editor */
+    font-size: 18px;
+}
+
+.testEditor {
+    height: 75px;
+}
+
+
+.outputContainer {
+    display: flex;
+    gap: 10px; /* space between boxes */
+    width: 100%;
+}
+
+.outputBox {
+    flex: 1; /* both boxes take equal width */
+    display: flex;
+    flex-direction: column; /* heading above pre */
+    align-items: center; /* center the heading */
+}
+
+.outputBox h2 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+
+.outputBox pre {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #f8f8f8;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+pre.wrong {
+  background: var(--red);
+}
+
+
+.outputContainer button {
+    padding: 10px 20px;
+    cursor: pointer;
+    flex: 1;
+}
+
+@mixin mss($property, $bg, $color) {
+  &#{$property} {
+    border: 1px solid $bg;
+    color: $color;
+    & > .img-selector {
+      background-color: $bg;
+    }
+    .img#{$property} {
+      display: flex;
+    }
+  }
+}
+
+
+
+
+
+.message {
+    margin: 10px, 0;
+    background: white;
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+    align-items: stretch;
+    justify-content: flex-start;
+    .img {
+        display: none;
+        &.active {
+            display: flex;
+        }
+    }
+    
+    @include mss(".error", #e74c3c, #992d22);
+    
+    @include mss(".info", #00a8ff, #1a4866);
+    
+    @include mss(".warning", #f39c12, #8c4c12);
+    
+    @include mss(".success", #00ca65, #1c8046);
+}
+
+//.message.error {
+//    border: 1px solid #e74c3c;
+//    color: #992d22ff;
+//    & > .img-selector {
+//        background-color: #e74c3c;
+//    }
+//}
+
+
+.content-box .message, .secondary-box .message, .exercises .message {margin-left: 0; margin-right: 0;}
+.message span {font-weight: 500;}
+.message > div:first-of-type {padding: 11px 13px; align-items: center; display: flex;}
+.message > div:nth-of-type(2) {padding: calc(var(--unit) * 2); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; align-content: flex-start; flex-grow: 1;}
+.message img {width: 30px; height: 30px;}
+
+.message .title {
+  font-weight: 500;
+}
+.message .detail {
+  font-size: .9em;
+}
+
+
+
+.message.success{
+  border: 1px solid var(--green);
+  color: #1c8046ff;
+}
+.message.success .img-selector {
+  background-color: var(--green);
+}
+
+.message.info{
+  border: 1px solid var(--blue);
+  color: #1a4866;
+}
+.message.info > div:first-of-type {background-color: var(--blue);}
+
+.message.warning, .message.bulb{
+  border: 1px solid var(--orange);  
+  color: #8c4c12;   
+}
+.message.warning > div:first-of-type, .message.bulb > div:first-of-type {
+  background-color: var(--orange);
+}

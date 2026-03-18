@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='build/css/auth.css') }}">
+{% endblock %}
+{% block content %}
+<div class="center">
+  <div class="container-auth">
+    <h2>Register</h2>
+    <form class="auth" id="login-form">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" minlength="3" maxlength="15" autocomplete="off" required>
+      </div>  
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="text" id="email" minlength="3" maxlength="60" autocomplete="off" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" minlength="3" maxlength="20" autocomplete="off" required>
+      </div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAACWaR0VsAZrgSwiA"></div>
+      <div class="field">
+        <p id="error-message" style="color:red"></p>
+        <button type="submit">Register</button>
+      </div>
+    </form>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <a href="/login"><button class="login" type="submit">Back to Login</button></a>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById("login-form");
+const error_message = document.getElementById("error-message");
+
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // IMPORTANT: stops the default GET submission
+  const token = turnstile.getResponse(); 
+  if (!token) {
+    error_message.textContent = "Please complete the CAPTCHA!";
+    return;
+  }
+  const data = {
+    "username": document.getElementById("username").value,
+    "email": document.getElementById("email").value,
+    "password": document.getElementById("password").value,
+    "cf-turnstile-response": token // <-- important
+  }
+  fetch("/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)})
+    .then(async (response) => {
+    const contentType = response.headers.get("content-type");
+
+    if (response.redirected) {
+      // Server sent a redirect (e.g. to login)
+      console.log("Redirected to:", response.url);
+      // Optionally handle or navigate:
+      window.location.href = response.url;
+      return;
+    }
+
+    if (contentType && contentType.includes("application/json")) {
+      // ✅ It's JSON
+      const data = await response.json();
+      error_message.textContent = data.error
+      console.log("Got JSON:", data);
+      return data;
+    } else {
+      // ⚠️ Unknown type
+      const text = await response.text();
+      console.warn("Unknown content type:", contentType);
+      return text;
+    }}).finally(() => {
+    // Reset CAPTCHA for the next attempt
+    turnstile.reset();
+  })
+});
+</script>
+{% endblock %}

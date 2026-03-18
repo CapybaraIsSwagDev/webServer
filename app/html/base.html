@@ -1,0 +1,152 @@
+{% import "components.html" as ui %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=2.0">
+  <title>{% block title %}Capydev{% endblock %}</title>
+  <link rel="icon" type="image/x-icon" href="/static/icon.svg">
+  <link rel="stylesheet" href="{{ url_for('static', filename='build/css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+    {% block extend_base %}{% endblock %}
+    <header>
+        <h1><a href="/">Capydev</a></h1>
+        <nav id="nav-logged-in" class="disable">
+            <a href="/user/lessons"><button>Lessons</button></a>
+            <!-- <a href="/user/notes"><button>Notes</button></a> -->
+            <div>
+                <button class="vertical" style="text-align: left;" id="account-btn">
+                    <p id="set-username">Username</p>
+                    <div class="progress">
+                        <div id="xp-bar-header" class="progress-fill"></div>
+                    </div>  
+                </button>
+                <div class="dropdown">
+                    <div><a href="/user">Profile</a></div>
+                    <div><a href="/settings">Settings</a></div>
+                    <div><a id="logout-btn" class="delete">Logout</a></div>
+                </div>
+                <style>
+                    .progress {
+                        width: 6rem;
+                        height: 0.5rem;
+                        background-color: #e0e0e0;
+                        border-radius: 10px;
+                        overflow: hidden;
+                    }
+
+                    .progress-fill {
+                        height: 100%;
+                        background-color: #4caf50;
+                    }
+                </style>
+            </div>
+        </nav>
+
+
+
+        <nav id="nav-logged-out">
+            <a href="/login"><button>Login</button></a>
+            <a href="/register"><button>Register</button></a>
+        </nav>
+        <script>
+            const profile = document.querySelector('.dropdown');
+            const accountBtn = document.getElementById('account-btn');
+            const navIn = document.getElementById("nav-logged-in");
+            const navOut = document.getElementById("nav-logged-out");
+
+        
+
+            // Buttons ///////////////////////////////////////
+            // DropDown
+            accountBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent closing immediately
+                profile.classList.toggle('active'); // toggle active class
+            });
+
+            // Close dropdown
+            document.addEventListener('click', () => {
+                profile.classList.remove('active');
+            });
+
+            // Logout option
+            document.getElementById("logout-btn").addEventListener("click", () => {
+                fetch("/logout", { method: "POST" })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.message); // "Logged out"
+                    window.location.href = "/"; // redirect client-side
+                });
+            });
+            // Load content //////////////////////////////////
+            document.addEventListener("DOMContentLoaded", async function() {
+                try {
+                    const res = await fetch("/api/user/header");
+
+                    if (res.status == 403) {
+                        console.error("Error getting header")
+                        return
+                    }
+                    if (res.status == 401) return
+                    
+                    const data = await res.json();
+
+                    const XpBar   = document.getElementById("xp-bar-header");
+                    // Converts XP → Level (rounded DOWN)
+                    function calcLevel(xp) {
+                    return Math.floor(Math.sqrt(xp / 50))
+                    }
+
+                    // Converts XP → Next Level (rounded UP)
+                    function calcNextLevel(xp) {
+                    return Math.ceil(Math.sqrt(xp / 50))
+                    }
+
+                    // Converts Level → XP required
+                    function levelToXP(level) {
+                    return level ** 2 * 50
+                    }
+
+                    // --- Usage ---    
+
+                    const level = calcLevel(data.xp)
+                    const nextLevel = calcNextLevel(data.xp + 1)
+
+                    const currentLevelXP = levelToXP(level)
+                    const nextLevelXP = levelToXP(nextLevel)
+
+                    const xpIntoLevel = data.xp
+                    const xpNeededForLevel = nextLevelXP
+
+                    XpBar.style.width = `${Math.round(xpIntoLevel/xpNeededForLevel*100)}%`
+                    document.getElementById('set-username').textContent == data.username
+
+                    navIn.classList.toggle('disable')
+                    navOut.classList.toggle('disable')
+
+                } catch (err) {
+                    console.error("Failed to fetch login status", err);
+                    // fallback: show logged-out nav
+                    document.getElementById("nav-logged-in").style.display = "none";
+                    document.getElementById("nav-logged-out").style.display = "flex";
+                }
+            });
+        </script>
+    </header>
+    <main>
+    {% block content %}{% endblock %}
+    </main>
+</body>
+<!-- <footer>
+    <div class="footer-content">
+    <p>© 2025 My Website</p>
+    <div class="footer-links">
+        <a href="#privacy">Privacy</a> |
+        <a href="#terms">Terms</a> |
+        <a href="#contact">Contact</a>
+    </div>
+    </div>
+</footer> -->
+</html>

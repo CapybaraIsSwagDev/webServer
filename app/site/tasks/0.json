@@ -1,0 +1,16 @@
+{
+    "template":"code",
+    "title":"Plus jeden",
+    "description":"Pripocitaj 1.",
+    "difficulty":0,
+    "xp":"10xp",
+    "question":"Opravte nachystanú funkciu **plus_one(x)** tak, aby vypisovala informáciu o tom, aké číslo je o jednu väčšie ako x.",
+    "example":"def plus_one(x): \n\tprint(x, \"plus jedna je\")",
+    "correct":"def plus_one(x): \n\tprint(x, \"plus jedna je\",x+1)",
+    "tests":[
+        "plus_one(13)",
+        "plus_one(5)",
+        "plus_one(9)",
+        "plus_one(28)"
+    ]
+}

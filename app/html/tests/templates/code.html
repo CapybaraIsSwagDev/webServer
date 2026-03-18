@@ -1,0 +1,205 @@
+{% extends "tests/base.html" %}
+{% block title %}Tasks{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/eclipse.min.css">
+{% endblock %} 
+{% block content %}
+  <div id="mainDiv">
+    <p class="markdown">{{ data.question }}</p>
+    <h2>Tvoj kód</h2>
+    <textarea id="editorCode"></textarea>
+
+    <h2>Kód na testovanie</h2>
+    <textarea id="editorTestCode"></textarea>
+    <div class="outputContainer">
+        <button id="runBtn">Spustiť</button>
+        <button id="tstBtn">Odovzdať</button>
+    </div>
+    <div id="message" class="message error" style="display: none;">
+        <div class="img-selector">
+            <img class="img error" src="{{ url_for('static', filename='icon-infobox-error-white.svg') }}">
+            <img class="img info" src="{{ url_for('static', filename='icon-infobox-info-white.svg') }}">
+            <img class="img warning" src="{{ url_for('static', filename='icon-infobox-warning-white.svg') }}">
+            <img class="img success" src="{{ url_for('static', filename='icon-infobox-success-white.svg') }}">
+        </div>
+        <div>
+            <span><p class="title">title</p><p class="detail">detail</p></span>
+        </div>
+    </div>
+    <h2>Output</h2>
+    <div class="outputContainer">
+      <div class="outputBox">
+          <h2>Main Output</h2>
+          <pre id="output"></pre>
+      </div>
+      <div class="outputBox">
+          <h2>Expected Output</h2>
+          <pre id="outputAns"></pre>
+      </div>
+  </div>
+
+
+  </div>
+
+
+<!-- CodeMirror JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/python/python.min.js"></script>
+
+<!-- Skulpt JS -->
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+<script src="{{ url_for('static', filename='js/markdown.js') }}"></script>
+
+<script>
+    function show(type,text,detail="") {
+        var message = document.getElementById("message");
+        message.className = 'message '+String(type);
+        message.style.display = 'flex'
+        
+        
+        var span = message.getElementsByTagName("div")[1].getElementsByTagName("span")[0]
+        if (detail) {
+            span.innerHTML = `<p class=\"title\">${text}</p><p class=\"detail\">${detail}</p>`
+        } else {
+            span.innerHTML = `${text}`
+        }
+
+    }
+
+    function hideAll(text) {
+        console.log("hide")
+        var message = document.getElementById("message");
+        message.style.display= 'none'
+    }
+    function incorrect() {
+        var output = document.getElementById("outputAns")
+        output.className += "wrong";
+    }
+</script>
+
+<script>
+  var editorCode = CodeMirror.fromTextArea(document.getElementById("editorCode"), {
+      mode: "python", 
+      lineNumbers: true,
+      indentUnit: 4
+  });
+
+  var editorTestCode = CodeMirror.fromTextArea(document.getElementById("editorTestCode"), {
+      mode: "python",
+      lineNumbers: true,
+      indentUnit: 4
+  });
+  editorTestCode.getWrapperElement().classList.add("testEditor");
+
+  editorCode.on("change", function() {
+      editorTestCode.setOption("firstLineNumber", editorCode.lineCount() + 1);
+  });
+  // Skulpt output function
+  function outf(text) {
+      var output = document.getElementById("output");
+      output.textContent += text;
+  }
+
+  function runCode() {
+    console.log("Running Script")
+    var prog = editorCode.getValue() + "\n" + editorTestCode.getValue();
+    var output = document.getElementById("output");
+    output.textContent = "";
+
+    Sk.configure({
+        output: outf,
+        read: function(x) {
+            if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                throw "File not found: '" + x + "'";
+            return Sk.builtinFiles["files"][x];
+        },
+        python3: true
+    });
+
+    (Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, prog, true);
+    })).catch(function(err) {
+        show("error",err.toString())
+    });
+  }
+  function outfAnswer(text) {
+    var output = document.getElementById("outputAns");
+    output.textContent += text;
+  }
+  function runAnswer() {
+    console.log("Running Script Answer")
+    var prog = {{ data.correct | tojson | safe }} + "\n" + editorTestCode.getValue();
+    var output = document.getElementById("outputAns");
+    output.textContent = "";
+
+    Sk.configure({
+        output: outfAnswer,
+        read: function(x) {
+            if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                throw "File not found: '" + x + "'";
+            return Sk.builtinFiles["files"][x];
+        },
+        python3: true
+    });
+
+    (Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, prog, true);
+    })).catch(function(err) {
+        output.textContent += "ERROR: "+err.toString();
+    });
+  }
+  
+  // Setup
+  var tests = {{ data.tests | tojson | safe}}
+  editorCode.setValue({{ data.example | tojson | safe}});
+  editorTestCode.setValue(tests[0]);
+
+  // Setup
+  render() // For the Markdown Text
+  runAnswer()
+
+  
+  function runAll() {
+    runCode()
+    runAnswer()
+  }
+  function ValidateAnswers() {
+    function checkAnswer() {
+        runAll()
+        var output = document.getElementById("output").textContent;    // tested Output
+        var outputAns = document.getElementById("outputAns").textContent;  // correct Output
+        var match = output.trim() === outputAns.trim();
+        return match
+    }
+    correctAnswer = true
+    for (let i = 0; i < tests.length; i++) {
+        const test = tests[i];
+        editorTestCode.setValue(test); // Set Next Test
+        var match = checkAnswer()
+        if (!match) {
+            correctAnswer = false
+            show("error","Program je nespravny.")
+            incorrect()
+            break
+        }
+    }
+    if (correctAnswer) {
+        show("correct","Correct Answer")
+        // add option to go to the next lesson
+        console.log("Correct")
+    }
+  }
+  // Run button
+  document.getElementById("runBtn").addEventListener("click", runAll);
+  document.getElementById("tstBtn").addEventListener("click", ValidateAnswers);
+</script>
+
+<script>
+    // Language change
+    defualt_lang = "sk"
+</script>
+{% endblock %}

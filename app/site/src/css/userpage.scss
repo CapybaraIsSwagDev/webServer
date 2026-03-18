@@ -1,0 +1,411 @@
+// Variables
+
+$accent-gradient: linear-gradient(135deg, #4facfe, #00f2fe);
+$text-main: #ffffff;
+$text-dim: rgba(255, 255, 255, 0.6);
+$blur-val: 16px;
+
+// Dimensions
+$sidebar-width: 320px;
+$max-dashboard-width: 1650px;
+$gap-size: 30px;
+
+
+// Seperates Side bar and content
+.dashboard {
+  display: grid;
+  grid-template-columns: $sidebar-width 1fr; 
+  gap: $gap-size;
+  width: 100%;
+  max-width: $max-dashboard-width;
+}
+
+
+
+
+// Sidebar Styles
+.sidebar {
+  .profile-card {
+    text-align: center;
+    position: sticky;
+    top: 30px;
+    .user {
+      .avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        background: $accent-gradient;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.05), 0 12px 30px rgba(0, 150, 255, 0.4);
+      }
+    }
+
+    .xp-section {
+        margin: 20px 0;
+        
+        .xp-bar {
+            position: relative;
+            height: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+
+            .xp-fill {
+                height: 100%;
+                width: 0%;
+                background: $accent-gradient;
+                transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        }
+        .xp-level {
+            display: flex;
+            justify-content: space-between;
+            .xp-text {
+                font-weight: bold;
+            }
+        }
+    }
+  }
+}
+
+// Main Content
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-size;
+
+  .resume-learning {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+
+    h3 { color: $text-dim; font-size: 0.9rem; text-transform: uppercase; }
+    h2 { margin: 5px 0; }
+    .lesson-info {
+        flex: 1;
+        margin-right: 40px;
+    }
+    .btn-primary {
+      padding: 12px 24px;
+      background: $accent-gradient;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+      &:hover { transform: scale(1.05); }
+    }
+  }
+
+  .profile-grid {
+    display: grid;
+    // DYNAMIC COLUMNS: It will stay 2 columns until there's enough room for 3
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); 
+    gap: $gap-size;
+  }
+}
+
+// Shared List Styles
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+    &:last-child { border-bottom: none; }
+  }
+}
+
+// Streak Heatmap Placeholder
+.streak-mini-grid {
+  display: flex;
+  gap: 8px;
+  margin: 15px 0;
+  
+  .day {
+    width: 30px;
+    height: 30px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    
+    &.active {
+      background: #4facfe;
+      box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+    }
+  }
+}
+
+.small-text { font-size: 0.8rem; color: $text-dim; }
+
+// Mobile
+@media (max-width: 900px) {
+  .dashboard { grid-template-columns: 1fr; }
+  .profile-grid { grid-template-columns: 1fr; }
+}
+pre {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+
+
+.friends-list {
+  padding: 20px;
+  margin-top: 20px;
+  .friends-header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    .panel {
+      display: none;
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      min-height: 200px;
+      z-index: 100;
+      
+      background: #1a1a1a; 
+      border: 1px solid #333;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      flex-direction: column;
+
+      &.active {display: flex; }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: space-between;
+        
+        input {
+          flex: 1;
+          max-width: calc(100% - 25px);
+          color: white;
+          background: #0a0a0a;
+          border: 1px solid #444;
+          border-radius: 8px;
+          padding: 10px 12px;
+          font-size: 0.9rem;
+          outline: none;
+          &:focus { border-color: #00f2fe; }
+        }
+
+        .close-panel-btn {
+          background: none;
+          border: none;
+          color: #666;
+          font-size: 1.5rem;
+          cursor: pointer;
+          &:hover { color: white; }
+        }
+      }
+
+      .result-area {
+        margin-top: 15px;
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 8px;
+
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: rgba(0, 229, 255, 0.3);
+          border-radius: 3px;
+          &:hover {
+            background: rgba(0, 229, 255, 0.5);
+          }
+        }
+
+        .search-placeholder {
+          text-align: center;
+          padding: 30px 20px;
+          color: $text-dim;
+        }
+
+        .search-results {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .user-card {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(0, 229, 255, 0.1);
+          border-radius: 10px;
+          transition: all 0.3s ease;
+          cursor: pointer;
+
+          &:hover {
+            background: rgba(0, 229, 255, 0.08);
+            border-color: rgba(0, 229, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.15);
+          }
+
+          .card-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+
+            .avatar {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              background: $accent-gradient;
+              flex-shrink: 0;
+              box-shadow: 0 0 8px rgba(79, 172, 254, 0.3);
+            }
+
+            .user-info {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+
+              .username {
+                font-weight: 600;
+                font-size: 0.95rem;
+                color: $text-main;
+              }
+
+              .xp-display {
+                font-size: 0.8rem;
+                color: #00e5ff;
+              }
+            }
+          }
+
+          .add-user-btn {
+            background: transparent;
+            border: 2px solid rgba(0, 229, 255, 0.4);
+            color: #00e5ff;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+
+            &:hover {
+              background: rgba(0, 229, 255, 0.15);
+              border-color: #00e5ff;
+              box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.friends-ul {
+  list-style: none;
+  padding: 0;
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  &:last-child {
+    border-bottom: none;
+  }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    background: #444;
+    border-radius: 50%;
+    position: relative;
+    &.online::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 10px;
+      height: 10px;
+      background: #00ffcc; /* Cyan to match your theme */
+      border-radius: 50%;
+      border: 2px solid #2a2a2a; /* Creates a gap effect */
+    }
+  }
+  .info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    .name {
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    .status {
+      font-size: 0.75rem;
+      color: #888;
+    }
+  }
+  .xp {
+    font-size: 0.8rem;
+    color: #00e5ff;
+  }
+}
+
+
+
+/* The Avatar and Status Dot */
+
+
+
+
+.add-friend-btn {
+  background: transparent; /* Subtle glass background */
+  border: none;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 8px; /* Slightly rounded corners match your islands */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease; /* Smooth hover transition */
+  &:hover {
+    background: rgba(0, 229, 255, 0.2); /* Cyan tint on hover */
+    border-color: #00e5ff;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.4); /* Neon glow */
+    transform: scale(1.1); /* Slight pop effect */
+  }
+}
+

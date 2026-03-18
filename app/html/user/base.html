@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% import "components.html" as ui %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+
+
+<!-- PAGE LAYOUT -->
+<div class="center">
+  <div class="outside">
+    <div class="dashboard">
+
+      <!-- LEFT MENU -->
+      <aside class="container sidebar">
+        <h1>Menu</h1>
+        <div class="task"><a href="/user">Profil</a></div>
+        <div class="task"><a href="/user/notes">Notes</a></div>
+        <div class="task"><a href="/user/lessons">Lekcie</a></div>
+        <div class="task"><a href="#">Nastavenia</a></div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      {% block page_content %}{% endblock page_content %}
+    </div>
+  </div>
+</div>
+
+<style>
+.outside {
+  display: flex;
+  padding: 30px;
+  width: 100%;
+  max-width: 1500px;
+}
+.dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+/* override conatiner */
+.container {
+  margin: 0%;
+}
+
+.sidebar {
+  height: fit-content;
+  max-height: 300px;
+  padding: 30px;
+}
+
+
+.task a {
+  text-decoration: none;
+  color: var(--texts);
+  font-weight: 600;
+}
+
+.task a:hover {
+  color: #0077ff;
+}
+
+/* Mobile friendly */
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+  const logoutBtn = document.getElementById("logout-btn");
+  const contentEl = document.getElementById("content");
+  const refreshBtn = document.getElementById("refresh-btn");
+
+  logoutBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    await fetch("/logout", { method: "POST" });
+    window.location.href = "/";
+  });
+
+  async function loadContent() {
+    try {
+      const res = await fetch("/api/user");
+      const data = await res.json();
+      contentEl.textContent = JSON.stringify(data, null, 2);
+    } catch {
+      contentEl.textContent = "Failed to load user data.";
+    }
+  }
+
+  loadContent();
+</script>
+
+
+{% endblock content %}

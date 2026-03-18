@@ -1,0 +1,58 @@
+majtan.juraj4 / account - chatgpt with my raw ideas
+
+Ela mobil - 2109119DG
+
+SVG Basics - https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorials/SVG_from_scratch/Basic_shapes
+
+SCSS - Looks and feels better
+
+My Own HTML Preprocessor 
+ - I can make my own elements <concent> => <div class="concent"></div>
+ - Harder to get page source code class name can be encrypted / randomised (Idk code is meant to be shared)
+
+IDEAS:
+ - Markdown
+
+☐☒ :3 - for copy pasting
+https://www.notion.so/2fb5b10683148017a192ce9969d5e6a2?v=2fb5b106831480daa971000cd1ef7f43
+TO DO:
+ ☐ Organise code files
+ ☐ the pre Preprocessor
+ ☐ Find better way to store tasks (More organized)
+ ☐ DnD "engine" on my website :3
+ ☐ Auto Translating
+ 
+Option A — Pages
+locales/en/home.json
+locales/en/profile.json
+locales/en/dashboard.json
+Option B — Features
+locales/en/auth.json
+locales/en/lessons.json
+locales/en/navigation.json
+
+
++-----------------------------------------------------------------------+
+| MyLessonApp                                        [Login] [Register] |
++-----------------------------------------------------------------------+
+
+
+
+                    Welcome To my Webiste
+
+
+
+
+
+   [ Start Learning ]
+
+   Recent Lessons:
+   +------------------+   +------------------+   +------------------+
+   | Lesson Title     |   | Lesson Title     |   | Lesson Title     |
+   | Short summary... |   | Short summary... |   | Short summary... |
+   [ Open Lesson ]    |   [ Open Lesson ]    |   [ Open Lesson ]    |
+   |                  |   |                  |   |                  |
+   +------------------+   +------------------+   +------------------+
+
+
+

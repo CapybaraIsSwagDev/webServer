@@ -1,0 +1,420 @@
+@import "colors";
+
+
+/* Nav container */
+/* Regular nav links */
+/* Profile block container */
+/* Profile image */
+/* Username and logout stacked vertically */
+/* Username */
+/* Logout button */
+/* Other */
+/* KeyFrames */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes moveBackground {
+	from {
+		transform: translate(0,0);
+	}
+	to {
+		transform: translate(50px,50px);
+	}
+}
+
+
+/* Specific */
+
+
+a.delete {
+	&:hover {
+		color: $red
+	}
+}
+
+/* To DO */
+button.delete {
+	background: plum
+}
+
+$glass-bg: rgba(255, 255, 255, 0.08);
+$glass-border: rgba(255, 255, 255, 0.1);
+$blur-val: 16px;
+
+// Mixins
+@mixin glass-effect {
+  background: $glass-bg;
+  border-radius: 22px;
+  border: 1px solid $glass-border;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+// Global Glass Class
+.glass-island {
+  @include glass-effect;
+  padding: 28px;
+}
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: v.$font-family_1;
+	background: linear-gradient(135deg, v.$gradiant-1, v.$gradiant-2);
+	color: v.$text;
+	overflow-x: hidden;
+}
+main {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+header {
+	background: $surface;
+  	color: $text;
+  	border-bottom: 1px solid var(--border);
+	background: $main-tran;
+	backdrop-filter: blur(10px);
+	position: fixed;
+	top: 0;
+	height: 80px;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 0.75rem 1rem 2rem;
+	
+	box-shadow: 0 20px 20px $shadow;
+	z-index: 1000;
+	h1 {
+		font-size: 2rem;
+		font-weight: bold;
+		a {
+			text-decoration: none;
+			color: $text;
+			transition: 0.3s;
+			&:hover {
+				color: $hover_color;
+			}
+		}
+	}
+}
+
+nav {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 5px;
+	padding: 10px 10px 10px 20px;
+	position: relative;
+
+	&.disable {
+		display: none;
+	}
+
+	img {
+		width: 4.5rem;
+		height: 4.5rem;
+		border-radius: 50%;
+		object-fit: cover;
+		transition: 0.3s;
+
+		&:hover {
+			transform: scale(1.025);
+		}
+	}
+
+	#nav-username {
+		font-weight: bolder;
+	}
+
+  	button {
+		background: none;
+		border: 2px solid transparent;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+		color: $text;
+		font-size: 1rem;
+		text-decoration: none;
+		transition: all 0.25s ease-in-out;
+		display: inline-flex;
+		cursor: pointer;
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.10);
+			color: $hover_color;
+			transform: scale(1.05);
+		}
+	}
+
+
+  	// Dropdown menu
+  	.dropdown {
+		display: none;
+		position: absolute;
+		top: 100%; // below the button/image
+		right: 0;
+		background: $main-tran; // use your background color variable
+		width: 150px;
+		border-radius: 0.5rem;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		z-index: 10;
+		overflow: hidden;
+		div {
+			padding: 5px;
+			a {
+				display: block;
+				padding: 0.75rem;
+				color: $text;
+				text-decoration: none;
+				transition: 0.2s;
+				border-radius: 0.5rem;
+				&:hover {
+					background: rgba(0, 0, 0, 0.10);
+				}
+			}
+		}
+	
+		&.active {
+			display: block;
+		}
+  	}
+}
+
+
+
+
+/* Base Class For Basic Container  */
+.container {
+	//margin: 50px 0;
+	padding: 40px;
+	background: rgba(0, 0, 0, 0.01);
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	h1 {
+		margin-bottom: 12px;
+	}
+	p {
+		color: $text;
+	}
+
+	button {
+		width: 100%;
+		background: $main;
+		color: $text;
+		padding: 14px 24px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+		border-radius: 14px;
+		border: none;
+		text-align: center;
+		font-size: 16px;
+		font-weight: 600;
+		color: $text;
+		transition: 1.5s;
+		&:hover {
+			background: $surface;
+			box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+		}
+	}
+}
+
+
+.island {
+	margin: 0px 20px;
+	position: relative;
+	p {
+		font-size: 1.25rem;
+	}
+}
+h1.type-1 {
+	position: relative;
+	width: max-content;
+	font-size: 2.5rem;
+	margin-bottom: 10px;
+	&::after  {
+		content: "";
+		background: #ff9a9e;
+		border-radius: 2px;
+		height: 0.4rem;
+		width: 100%;
+		position: absolute;
+		bottom: -5px;
+		left: 0;
+	}
+}
+
+.grid-h {
+	margin-top: 10px;
+	display: flex;
+	grid-column: auto;
+	gap: 10px;
+	padding: 25px;
+	.lessons {
+		flex: 1;
+	}
+}
+
+.lessons {
+	@extend .container;
+ 	display: flex;
+  	flex-direction: column;
+	background: transparent;
+	margin: 0 0;
+	height: 12rem;
+	padding: 15px;
+	h2 {
+		text-align: left;
+	}
+	p {
+		text-align: left;
+		height: max-content;
+		&.expand {
+			flex: 1; 
+			overflow-y: auto;
+		}
+	}
+
+	button {
+		background: #33333355;	
+		&:hover {
+			box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+		}
+		.disable {
+			background: #33333377;
+			&:hover {
+				background: #33333377;
+			}
+		}
+
+	}
+}
+
+
+
+
+
+
+.hero {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	animation: fadeIn 1.2s ease-in-out;
+	pointer-events: none;
+	h2 {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+	p {
+		max-width: 600px;
+		font-size: 1.2rem;
+		opacity: 0.8;
+	}
+}
+
+
+
+/* Form */
+
+
+
+
+
+
+
+.about-card {
+	max-width: 600px;
+	margin: 80px auto;
+	padding: 50px;
+	background: linear-gradient(135deg, #ffecd2, #fcb69f);
+	border-radius: 20px;
+	text-align: center;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+	transform: rotate(-1deg);
+	transition: transform 0.3s ease;
+	&:hover {
+		transform: rotate(0deg) scale(1.02);
+	}
+}
+.about-split {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 900px;
+	margin: 100px auto;
+	padding: 40px;
+	background: linear-gradient(135deg, #cfe9ff, #a1c4fd);
+	border-radius: 20px;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+	gap: 40px;
+	flex-wrap: wrap;
+}
+.about-image {
+	img {
+		border-radius: 20px;
+		width: 100%;
+		max-width: 250px;
+		box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+	}
+}
+.about-text {
+	flex: 1;
+	min-width: 250px;
+	h2 {
+		margin-bottom: 16px;
+	}
+	p {
+		line-height: 1.6;
+	}
+}
+.about-pro {
+	h2 {
+		font-family: $font-family_2;
+	}
+	p {
+		line-height: 1.6;
+	}
+}
+footer {
+	position: relative;
+	text-align: center;
+	padding: 3rem 2rem;
+	background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+	color: $main;
+	font-size: 1rem;
+	overflow: hidden;
+	&::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		left: -50%;
+		width: 200%;
+		height: 200%;
+		background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.01%) center/50px 50px;
+		animation: moveBackground 20s linear infinite;
+		z-index: 0;
+	}
+	* {
+		position: relative;
+		z-index: 1;
+	}
+}
+.task {
+	display: flex;
+	justify-content: flex-start;
+	gap: 10px;
+	margin-bottom: 10px;
+}
