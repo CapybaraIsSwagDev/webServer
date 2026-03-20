@@ -1,0 +1,17 @@
+# Ignore the local Windows virtual environment (The #1 space taker!)
+venv/
+.venv/
+env/
+
+# Ignore Python cache files
+**/__pycache__/
+*.pyc
+
+# Ignore Git history
+.git/
+.gitignore
+
+# Ignore your local environment variables
+.env
+
+outdated

@@ -30,7 +30,7 @@ def verify_captcha(data):
     return result.get("success", False)
 
 
-@api_auth.route('/login', methods=['GET', 'POST'])
+@api_auth.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         data = request.get_json()  # <- gets the JSON sent from fetch
@@ -65,7 +65,7 @@ def register():
     if request.method == 'POST':
         data = request.get_json() 
         if not verify_captcha(data):
-            return {"error":"Captha Failed"}
+            return {"error":"Captha Failed"} 
         required_fields = ["username", "email", "password"]
 
         if any(data.get(field, "") == "" for field in required_fields): # Check all required fields so thay are not empty

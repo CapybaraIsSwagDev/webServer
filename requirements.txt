@@ -1,6 +1,4 @@
 flask
 gunicorn
-libsass
 pyyaml
 requests
-watchdog
