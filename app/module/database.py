@@ -4,7 +4,7 @@ from pathlib import Path
 # -----------------------------
 # Database setup
 # -----------------------------
-db_path = Path(__file__).parent.parent.joinpath("users.db")
+db_path = Path(__file__).parent.parent.joinpath("data/").joinpath("users.db")
 
 def get_db() -> sqlite3.Connection:
     conn = sqlite3.connect(db_path)

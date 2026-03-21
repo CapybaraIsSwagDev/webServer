@@ -1,6 +1,5 @@
 # app/__init__.py
 from flask import Flask
-from .development import run
 import os
 
 def create_app():
