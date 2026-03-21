@@ -10,20 +10,6 @@
           "request": "launch",
           "program": "run.py",
           "console": "integratedTerminal"
-      },
-      {
-          "name": "Launch React",
-          "request": "launch",
-          "type": "chrome",
-          "url": "http://localhost:5173",
-          "webRoot": "${workspaceFolder}",
-          "preLaunchTask": "Run Dev Server"
       }
-    ],
-    "compounds": [
-    {
-      "name": "Full Stack",
-      "configurations": ["Launch React", "Python Webserver"]
-    }
-  ]
+    ]
 }
