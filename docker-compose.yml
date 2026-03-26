@@ -1,9 +1,20 @@
-version: '3'
+version: '2'
+# update
 services:
-  flask-app:                      # The name of your service in Container Station
-    image: capydev/flask-app:latest # TELLS QNAP: "Go to Docker Hub and get the latest code I pushed"
+  cache:
+    image: memcached:alpine
     ports:
-      - "8000:8000"               # TELLS QNAP: "Open port 8000 on the NAS so I can see the website"
+      - "11211:11211"
+  flask-app:
+    build: .
+    container_name: flask-bridge-app
+    ports:
+      - "8000:8000"
     volumes:
-      - /share/Public/flask_data:/app/data # THE BIND MOUNT: Links your NAS folder to the app's folder
+      - C:\Users\majta\Pictures\dbFlask:/app/data
+    depends_on:
+      - cache
+    environment:
+      - MEMCACHED_HOST=cache
     restart: always
+    

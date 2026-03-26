@@ -13,5 +13,14 @@ env/
 
 # Ignore your local environment variables
 .env
+.vscode
+.github
 
 outdated
+
+docker-compose.yml
+
+*.ps1
+*.bat
+README.md
+qnap

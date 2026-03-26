@@ -28,7 +28,7 @@ def userdata():
     try:
         user = auth.getUserFromToken(g.get("token"))
     except profile.UserNotFoundError:
-        return {}, 403
+        return {"error":"Forbidden"}, 403
     user = profile.userById(1)
     data = {
         "username": user.username,

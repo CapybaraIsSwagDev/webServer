@@ -17,7 +17,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required autocomplete="current-password">
       </div>
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAACWaR0VsAZrgSwiA"></div>
+      <!-- <div class="cf-turnstile" data-sitekey="0x4AAAAAACWaR0VsAZrgSwiA"></div> -->
       <div class="field">
         <p id="error-message" style="color:red"></p>
         <button id="login-btn" type="submit">Login</button>
@@ -35,15 +35,15 @@ const error_message = document.getElementById("error-message");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault(); // IMPORTANT: stops the default GET submission
-  const token = turnstile.getResponse(); 
-  if (!token) {
-    error_message.textContent = "Please complete the CAPTCHA!";
-    //return;
-  }
+  //const token = turnstile.getResponse(); 
+  //if (!token) {
+  //  error_message.textContent = "Please complete the CAPTCHA!";
+  //  //return;
+  //}
   const data = {
     "username": document.getElementById("username").value,
     "password": document.getElementById("password").value,
-    "cf-turnstile-response": token // <-- important
+    //"cf-turnstile-response": token // <-- important
   }
   const params = new URLSearchParams(window.location.search);
   const dest = params.get("dest");

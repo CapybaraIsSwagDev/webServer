@@ -2,8 +2,9 @@
     "template":"code",
     "title":"Zaklady opakovania",
     "description":"For cyklus sluzi na opakovanie kodu urcity pocet krat.",
-    "difficulty":0,
+    "difficulty":3,
     "xp":"10xp",
+    
     "question":"Vytvorte funkciu **kacky(n)**, ktorá vypíše **n** kačiek s číslami, napríklad *Kačka 1*, *Kačka 2* atď., a na konci vypíše *Mama kačka*" ,
     "example":"def kacky(n): \n\tfor i in range(n):\n\t\tprint(\"Kačka\")",
     "correct":"def kacky(n): \n\tfor i in range(n):\n\t\tprint(\"Kačka\",i+1)\n\tprint(\"Mama kačka\")",

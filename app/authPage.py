@@ -55,7 +55,7 @@ def login():
             resp = redirect(dest)
         else:
             resp = redirect(url_for("main.user.main"))
-        resp.set_cookie("sessionToken", token, max_age=60*60, httponly=True, samesite="None", secure=True)  # cookie lasts 1 day
+        resp.set_cookie("sessionToken", token, max_age=60*60, httponly=True, samesite="Lax", secure=False)  # cookie lasts 1 day
         return resp
 
     ## GET Method ##

@@ -1,37 +1,46 @@
 # app/modules/auth.py
-import secrets, time
-from werkzeug.security import generate_password_hash, check_password_hash
+import secrets, time, json, os
+from pymemcache.client.base import Client
 from . import profile
-TOKENVALIDTIME = 3600 # in seconds 3600s = 1h
 
-sessions = {}
+memcached_host = os.getenv('MEMCACHED_HOST', 'localhost')
+mc = Client((memcached_host, 11211))
+
+TOKENVALIDTIME = 3600 # in seconds 3600s = 1h
 
 # Creates session
 def createSession(User: profile.User) -> str:
     newtoken = secrets.token_hex(32)
-    sessions[newtoken] = {
+    session_data = {
         "userId": User.id,
         "expires": time.time() + 3600
     }
+    mc.set(newtoken, json.dumps(session_data), expire=TOKENVALIDTIME)
     return newtoken
 
 def validToken(token: str) -> bool:
-    reg = sessions.get(token)
-    if reg == None:
+    if not token: return False
+    
+    raw_data = mc.get(token)
+    if raw_data is None:
         return False
-    if reg["expires"] - time.time() > 3600:
+
+    
+    reg = json.loads(raw_data)
+    if reg["expires"] < time.time():
         removeToken(token)
-        return False 
-    else:
-        return True
+        return False
+    return True
 
 def getUserFromToken(token:str) -> profile.User:
-    if not token:
-        raise profile.UserNotFoundError
-    reg = sessions.get(token)
+    if not token: raise profile.UserNotFoundError
+    
+    raw_data = mc.get(token)
+    if not raw_data: raise profile.UserNotFoundError
 
+    reg = json.loads(raw_data)
     return profile.userById(reg["userId"])
 
 def removeToken(token:str):
-    sessions.pop(token)
+    mc.delete(token)
         

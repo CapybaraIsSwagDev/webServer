@@ -1,0 +1,21 @@
+version: '2'
+# update
+services:
+  flask-app:
+    image: capydev/flask-app:latest
+    container_name: flask-bridge-app
+    networks:
+      - qnet-dhcp
+    volumes:
+      - /Container/flask:/app/data
+    restart: always
+
+networks:
+  qnet-dhcp:
+    driver: qnet
+    driver_opts:
+      iface: "eth0"    # Try "eth0" or "qvs0" (see check below)
+    ipam:
+      driver: qnet
+      options:
+        iface: "eth0"  # Must match the one above0
